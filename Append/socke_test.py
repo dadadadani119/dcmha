@@ -4,24 +4,23 @@
 '''
 from socket import *
 import struct
+import time
 
 class TcpClient:
     def __init__(self):
         self.BUFSIZ = 1024
-        self.ADDR = ('127.0.0.1', 9011)
+        self.ADDR = ('127.0.0.1', 9898)
         self.client=socket(AF_INET, SOCK_STREAM)
         self.client.connect(self.ADDR)
         self.client.settimeout(1)
 
     def Send(self):
-        self.client.send(groupname.encode('utf8'))
-        while True:
-            data=self.client.recv(self.BUFSIZ)
-            recv_stat = {'recv_stat':119}
-            self.client.send(str(recv_stat))
-            if data:
-                a = data.read(19)
-                print struct.unpack('=IBIIIH', a)
+        data=self.client.recv(self.BUFSIZ)
+        recv_stat = {'a':'1'}
+        self.client.send(str(recv_stat).encode())
+        if data:
+            a = data.read()
+            print(a)
 
     def close(self):
         self.client.close()
