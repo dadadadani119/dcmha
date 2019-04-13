@@ -15,12 +15,23 @@ class TcpClient:
         self.client.settimeout(1)
 
     def Send(self):
-        data=self.client.recv(self.BUFSIZ)
-        recv_stat = {'a':'1'}
+
+        recv_stat = 'put {"task_name":"test01","config":"test.conf"}'
         self.client.send(str(recv_stat).encode())
+        data = self.client.recv(self.BUFSIZ)
         if data:
-            a = data.read()
-            print(a)
+            print(data.decode())
+
+        time.sleep(5)
+        recv_stat = 'set state starte task_name test01'
+        self.client.send(str(recv_stat).encode())
+        data = self.client.recv(self.BUFSIZ)
+        if data:
+            print(data.decode())
+
+        for i in range(10):
+            time.sleep(1)
+        self.client.close()
 
     def close(self):
         self.client.close()
